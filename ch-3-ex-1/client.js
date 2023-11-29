@@ -16,24 +16,21 @@ app.set('views', 'files/client');
 
 // authorization server information
 var authServer = {
-	authorizationEndpoint: 'http://localhost:9001/authorize',
-	tokenEndpoint: 'http://localhost:9001/token'
+	authorizationEndpoint: "",
+	tokenEndpoint: ""
 };
 
 // client information
-/*
- * Add the client information in here
- */
 var client = {
-	"client_id": "oauth-client-1",
-	"client_secret": "oauth-client-secret-1",
-	"redirect_uris": ["http://localhost:9000/callback"]
+	"client_id": "",
+	"client_secret": "",
+	"redirect_uris": []
 };
 
-var protectedResource = 'http://localhost:9002/resource';
+// protected resource server information
+var protectedResource = "";
 
 var state = null;
-
 var access_token = null;
 var scope = null;
 
@@ -76,6 +73,9 @@ app.get('/callback', function(req, res){
 		return;
 	}
 
+	/*
+	 * state値を検証。CSRF対策
+	 */
 	if (req.query.state != state) {
 		console.log('State DOES NOT MATCH: expected %s got %s', state, req.query.state);
 		res.render('error', {error: 'State value did not match'});
