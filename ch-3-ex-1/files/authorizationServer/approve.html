@@ -51,10 +51,15 @@
 		   <form class="form" action="/approve" method="POST">
 			   <input type="hidden" name="reqid" value="<%- reqid %>">
 			   <% if (scope) { %>
-			   <p>The client is requesting access to the following:</p>
+			   <p>GASプロジェクトは次の権限を要求しています</p>
 			   <ul>
 			   <% _.each(scope, function(s) { %>
-			   	  <li><input type="checkbox" name="scope_<%- s %>" id="scope_<%- s %>" checked="checked"> <label for="scope_<%- s %>"><%- s %></label></li>
+				   <% if (s === 'read') { %>
+			   	  <li><input type="checkbox" name="scope_<%- s %>" id="scope_<%- s %>" checked="checked"> <label for="scope_<%- s %>"><%- 'データ読み取り' %></label></li>
+				   <% }; %>
+				   <% if (s === 'write') { %>
+				   <li><input type="checkbox" name="scope_<%- s %>" id="scope_<%- s %>" checked="checked"> <label for="scope_<%- s %>"><%- 'データ書き込み' %></label></li>
+				   <% }; %>
 			   <% }); %>
 		       </ul>
 			   <% } %>

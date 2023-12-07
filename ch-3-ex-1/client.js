@@ -35,7 +35,7 @@ var protectedResource = 'http://localhost:9002/resource';
 var state = null;
 
 var access_token = null;
-var scope = null;
+var scope = "read write";
 
 app.get('/', function (req, res) {
 
@@ -56,7 +56,8 @@ app.get('/authorize', function(req, res){
 		response_type: 'code',
 		client_id: client.client_id,
 		redirect_uri: client.redirect_uris[0],
-		state: state
+		state: state,
+		scope: scope
 	});
 
 	res.redirect(authorizeUrl);
@@ -87,7 +88,7 @@ app.get('/callback', function(req, res){
 	var form_data = qs.stringify({
 		grant_type: 'authorization_code',
 		code: code,
-		redirect_uri: client.redirect_uris[0]
+		redirect_uri: client.redirect_uris[0],
 	});
 	var headers = {
 		'Content-Type': 'application/x-www-form-urlencoded',

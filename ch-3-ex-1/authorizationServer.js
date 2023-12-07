@@ -27,10 +27,10 @@ var authServer = {
 // client information
 var clients = [
 	{
-		"client_id": "oauth-client-1",
-		"client_secret": "oauth-client-secret-1",
-		"redirect_uris": ["http://localhost:9000/callback"],
-		"scope": "foo bar"
+		"client_id": "",
+		"client_secret": "",
+		"redirect_uris": [],
+		"scope": ""
 	}
 ];
 
@@ -116,7 +116,7 @@ app.post('/approve', function(req, res) {
 			}
 
 			// save the code and request for later
-			codes[code] = { authorizationEndpointRequest: query, scope: scope, user: user };
+			// TODO 認可コードとクライアントを関連させる
 		
 			var urlParsed =url.parse(query.redirect_uri);
 			delete urlParsed.search; // this is a weird behavior of the URL library
@@ -197,6 +197,7 @@ app.post("/token", function(req, res){
 					cscope = code.scope.join(' ')
 				}
 
+				// TODO; アクセストークンをクライアントIDとリソース所有者、権限と結びつける
 				nosql.insert({ access_token: access_token, client_id: clientId, scope: cscope });
 
 				console.log('Issuing access token %s', access_token);
